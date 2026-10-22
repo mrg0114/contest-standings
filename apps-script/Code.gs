@@ -16,8 +16,9 @@
 
 var CONFIG = {
   NAME: 'Platinum +1 Club',
-  // Scoring runs from 5 PM Chicago on Oct 22 (CDT) to the AKL-DFW takeoff on Nov 13 (1:20 PM NZDT).
-  CONTEST_START: '2026-10-22T22:00:00Z',
+  // Scoring runs from the judge's first ruling, 3:26 PM Chicago on Oct 22 (CDT), to the AKL-DFW
+  // takeoff on Nov 13 (1:20 PM NZDT). The four rulings from 3:26 to 3:29 PM are the starting points.
+  CONTEST_START: '2026-10-22T20:26:00Z',
   CONTEST_END: '2026-11-13T00:20:00Z',
   BLACKOUT_HOURS: 24,
   PAGE_URL: 'https://mrg0114.github.io/contest-standings/',
