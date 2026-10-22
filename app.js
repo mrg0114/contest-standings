@@ -578,7 +578,8 @@
 
     function refresh(OneSignal) {
       var on = OneSignal.Notifications.permission && OneSignal.User.PushSubscription.optedIn;
-      btn.textContent = on ? '🔔 Notifications on' : '🔔 Notifications';
+      btn.innerHTML = '🔔<span class="label">' + (on ? ' Notifications on' : ' Notifications') + '</span>';
+      btn.setAttribute('aria-label', on ? 'Notifications on' : 'Turn on notifications');
       btn.classList.toggle('on', !!on);
     }
     btn.addEventListener('click', function () {

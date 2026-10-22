@@ -13,19 +13,19 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 <header class="top">
   <div class="title">
     <span class="logo" aria-hidden="true"></span>
-    <div>
+    <div class="title-text">
       <h1 id="title">Platinum +1 Club</h1>
       <div class="status" id="status">Loading…</div>
     </div>
   </div>
   <div class="actions">
-    <button id="notifyBtn" type="button" hidden>🔔 Notifications</button>
+    <button id="notifyBtn" type="button" aria-label="Turn on notifications" hidden>🔔<span class="label"> Notifications</span></button>
     <button id="refreshBtn" type="button" aria-label="Refresh">↻</button>
   </div>
 </header>
@@ -63,6 +63,6 @@
 </dialog>
 
 <script src="config.js?v=2"></script>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

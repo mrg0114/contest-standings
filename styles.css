@@ -84,7 +84,8 @@ button { font: inherit; }
   padding: calc(12px + env(safe-area-inset-top)) 0 10px;
   position: sticky; top: 0; background: var(--page); z-index: 5;
 }
-.title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.title { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.title-text { min-width: 0; }
 .logo { width: 58px; height: 35px; flex-shrink: 0; background: var(--horse-img) center / contain no-repeat; }
 .top h1 { font-size: 1.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .status { font-size: .8rem; color: var(--ink-2); }
@@ -94,7 +95,8 @@ button { font: inherit; }
   border: 1px solid var(--ring); background: var(--surface); color: var(--ink);
   border-radius: 999px; padding: 6px 12px; cursor: pointer;
 }
-.actions button.on { border-color: var(--up); }
+.actions button.on { border-color: var(--up); box-shadow: 0 0 0 1px var(--up); }
+@media (max-width: 520px) { .actions .label { display: none; } }
 #refreshBtn { padding: 6px 10px; font-size: 1.05rem; }
 #refreshBtn.spin { animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
