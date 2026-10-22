@@ -353,7 +353,8 @@
     ranks.forEach(function (r) {
       var tier = TIERS[r.rank - 1];
       var n4 = net(p, r.name, now - 4 * H, now), n24 = net(p, r.name, now - D, now), mo = momentum(p, r.name, now);
-      var gap = r.rank === 1 ? (leadersOf(ranks).length > 1 ? 'tied for the lead' : (ranks[1] ? 'leads by ' + (r.total - ranks[1].total || 'the tie-breaker') : '')) : (leaderTotal - r.total) + ' behind';
+      var gap = r.rank === 1 ? (leadersOf(ranks).length > 1 ? 'tied for the lead' : (ranks[1] ? 'leads by ' + (r.total - ranks[1].total || 'the tie-breaker') : ''))
+        : leaderTotal === r.total ? 'level on points, behind on the tie-breaker' : (leaderTotal - r.total) + ' behind';
       var note = '';
       if (r.decided === 'earned') note = 'Tie on points broken by points earned (' + r.earned + ').';
       else if (r.decided === 'lost') note = 'Tie broken by fewest points lost (' + Math.abs(r.lost) + ').';

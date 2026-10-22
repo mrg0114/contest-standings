@@ -29,7 +29,7 @@ Live standings for a three-horse points contest. The judge enters points through
 
 ## Live values
 
-- Web app: `https://script.google.com/macros/s/AKfycbz9HfhX-Xb_JmhfRE4Pf8ppzuBaus2GZch9GQ-psnHx9PAwenvbK0I6_9cK-acBGPWO/exec` (execute as matt@teamgallagher.net, access Anyone). Version 2, deployed Oct. 22, 2026, 3:11 PM CDT: scoring starts 5 PM CDT (22:00Z), competitors frozen as Jen, Kathy, Blas.
+- Web app: `https://script.google.com/macros/s/AKfycbz9HfhX-Xb_JmhfRE4Pf8ppzuBaus2GZch9GQ-psnHx9PAwenvbK0I6_9cK-acBGPWO/exec` (execute as matt@teamgallagher.net, access Anyone). Version 3, deployed Oct. 22, 2026, 3:40 PM CDT: scoring started 3:26 PM CDT (20:26Z), at the judge's first ruling, so his four rulings from 3:26 to 3:29 PM are the starting points. Competitors frozen as Jen, Kathy, Blas.
 - Freeze for the contest: the competitor list is fixed in `Code.gs`, so editing the Form's choices does not change the standings. The Sheet "Form Responses 1" shows a warning on any manual edit. Corrections go in as offsetting entries through the Form. The page (index.html, app.js, styles.css) can change at any time without touching the data.
 - Apps Script project "Platinum +1 Club", bound to the Sheet. Triggers installed Oct. 22, 2026. Script property `ONESIGNAL_APP_ID` is set; `ONESIGNAL_REST_API_KEY` is added by hand.
 - A code change in the editor needs Deploy > Manage deployments > edit > New version, or the web app keeps serving the old code.
