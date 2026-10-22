@@ -16,15 +16,18 @@
 
 var CONFIG = {
   NAME: 'Platinum +1 Club',
-  // Scoring runs from noon Chicago on Oct 23 (CDT) to the AKL-DFW takeoff on Nov 13 (1:20 PM NZDT).
-  CONTEST_START: '2026-10-23T17:00:00Z',
+  // Scoring runs from 5 PM Chicago on Oct 22 (CDT) to the AKL-DFW takeoff on Nov 13 (1:20 PM NZDT).
+  CONTEST_START: '2026-10-22T22:00:00Z',
   CONTEST_END: '2026-11-13T00:20:00Z',
   BLACKOUT_HOURS: 24,
   PAGE_URL: 'https://mrg0114.github.io/contest-standings/',
   CACHE_SECONDS: 15,
+  // Frozen at go-live, so an edit to the Form's choices can't rename or drop anyone mid-contest.
+  // Empty means "read the names from the Form" (how it ran during testing).
+  COMPETITORS: ['Jen', 'Kathy', 'Blas'],
   COMPETITOR_QUESTION: 'Competitor',
   // Chicago days (midnight CDT = 05:00Z) until departure, Auckland days (midnight NZDT = 11:00Z) after landing.
-  CHICAGO_DAYS: ['2026-10-24', '2026-10-25', '2026-10-26', '2026-10-27', '2026-10-28'],
+  CHICAGO_DAYS: ['2026-10-23', '2026-10-24', '2026-10-25', '2026-10-26', '2026-10-27', '2026-10-28'],
   AUCKLAND_FIRST: '2026-10-30',
   AUCKLAND_LAST: '2026-11-13'
 };
@@ -54,6 +57,8 @@ function buildPayload() {
   var iR = header.indexOf('Reason');
   var competitors = competitors_(ss);
   var entries = [];
+  var start = new Date(CONFIG.CONTEST_START);
+  var started = new Date() >= start;
 
   for (var r = 1; r < values.length; r++) {
     var row = values[r];
@@ -62,6 +67,7 @@ function buildPayload() {
     var p = Number(row[iP]);
     if (!(t instanceof Date) || isNaN(t.getTime()) || !c || isNaN(p)) continue;
     if (competitors.length && competitors.indexOf(c) < 0) continue; // old names, test rows
+    if (started && t < start) continue; // practice entries stop counting once scoring starts
     entries.push({ t: t.toISOString(), c: c, p: p, r: iR >= 0 ? String(row[iR] || '').trim() : '' });
   }
   entries.sort(function (a, b) { return a.t < b.t ? -1 : a.t > b.t ? 1 : 0; });
@@ -108,8 +114,9 @@ function responseSheet_(ss) {
   return sheets[0];
 }
 
-/** The competitor names in the order the form lists them. Falls back to the names seen in the sheet. */
+/** The frozen competitor list, or else the names in the order the form lists them, or else the names seen in the sheet. */
 function competitors_(ss) {
+  if (CONFIG.COMPETITORS && CONFIG.COMPETITORS.length) return CONFIG.COMPETITORS.slice();
   try {
     var url = ss.getFormUrl();
     if (url) {
