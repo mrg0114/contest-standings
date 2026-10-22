@@ -253,6 +253,30 @@ main > section { margin: 0 0 18px; }
 @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: .6; } }
 @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
 
+/* Sponsor banner: the page's own wine and cream, kept separate from the sponsor's mark */
+.sponsor { margin: 8px 0 18px; }
+.sponsor-card {
+  display: flex; align-items: center; gap: 16px; text-decoration: none;
+  color: #f4e9dc; border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg, rgba(244, 233, 220, 0.05) 0 14px, transparent 14px 28px),
+    linear-gradient(120deg, #4a1526, #5e1d33);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+.sponsor-card:hover .sponsor-url, .sponsor-card:focus-visible .sponsor-url { text-decoration: underline; }
+.sponsor-card:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+.sponsor-art { width: 92px; height: 56px; flex-shrink: 0; background: url(horse.png) center / contain no-repeat; }
+.sponsor-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.sponsor-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+.sponsor-name { font-size: 1.7rem; font-weight: 800; line-height: 1.1; letter-spacing: .01em; }
+.sponsor-logo { height: 30px; width: auto; max-width: 180px; object-fit: contain; display: block; margin-top: 4px; }
+.sponsor-url { font-size: .85rem; font-weight: 600; white-space: nowrap; opacity: .9; }
+@media (max-width: 420px) {
+  .sponsor-card { gap: 12px; padding: 14px; }
+  .sponsor-art { width: 70px; height: 43px; }
+  .sponsor-name { font-size: 1.4rem; }
+}
+
 /* Footer, dialog */
 .foot { font-size: .78rem; color: var(--muted); margin-top: 20px; }
 dialog { border: 1px solid var(--ring); border-radius: var(--radius); background: var(--surface); color: var(--ink); max-width: 420px; padding: 18px; }

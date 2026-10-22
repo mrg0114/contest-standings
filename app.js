@@ -514,6 +514,20 @@
     $('#rulings').innerHTML = html + '</div>';
   }
 
+  function renderSponsor() {
+    var sp = CFG.sponsor;
+    var el = $('#sponsor');
+    if (!sp || !sp.name) { el.hidden = true; return; }
+    var mark = sp.logo
+      ? '<img class="sponsor-logo" src="' + esc(sp.logo) + '" alt="' + esc(sp.name) + '">'
+      : '<span class="sponsor-name">' + esc(sp.name) + '</span>';
+    el.innerHTML = '<a class="sponsor-card" href="' + esc(sp.url) + '" target="_blank" rel="noopener sponsored">' +
+      '<span class="sponsor-art" aria-hidden="true"></span>' +
+      '<span class="sponsor-text"><span class="sponsor-kicker">Sponsored by</span>' + mark + '</span>' +
+      (sp.label ? '<span class="sponsor-url">' + esc(sp.label) + ' ›</span>' : '') + '</a>';
+    el.hidden = false;
+  }
+
   function confetti() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var box = document.createElement('div');
@@ -625,6 +639,7 @@
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') fetchData(); });
   window.addEventListener('resize', function () { if (state.p) render(); });
 
+  renderSponsor();
   loadCache();
   if (state.p) render();
   fetchData();
