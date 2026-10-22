@@ -21,6 +21,7 @@
   --wood: linear-gradient(135deg, #b8742f, #8a5320);
   --wood-ink: #fff5e8;
   --green: #0f5132;
+  --horse-img: url(horse-ink.png);
   --radius: 14px;
   --font: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -40,6 +41,7 @@
     --series-3: #199e70;
     --up: #0ca30c;
     --down: #e66767;
+    --horse-img: url(horse.png);
   }
 }
 :root[data-theme="dark"] {
@@ -56,6 +58,7 @@
   --series-3: #199e70;
   --up: #0ca30c;
   --down: #e66767;
+  --horse-img: url(horse.png);
 }
 
 * { box-sizing: border-box; }
@@ -82,7 +85,7 @@ button { font: inherit; }
   position: sticky; top: 0; background: var(--page); z-index: 5;
 }
 .title { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.logo { font-size: 2rem; line-height: 1; }
+.logo { width: 58px; height: 35px; flex-shrink: 0; background: var(--horse-img) center / contain no-repeat; }
 .top h1 { font-size: 1.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .status { font-size: .8rem; color: var(--ink-2); }
 .status .stale { color: var(--down); font-weight: 600; }
@@ -129,7 +132,7 @@ main > section { margin: 0 0 18px; }
 .track h2 { margin-bottom: 6px; }
 .lanes { position: relative; }
 .finish { position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: repeating-linear-gradient(45deg, #000 0 5px, #fff 5px 10px); opacity: .55; border-radius: 3px; }
-.lane { position: relative; height: 52px; border-bottom: 1px dashed var(--grid); }
+.lane { position: relative; height: 80px; border-bottom: 1px dashed var(--grid); }
 .lane:last-child { border-bottom: 0; }
 .lane-name {
   position: absolute; left: 0; top: 4px; font-size: .72rem; font-weight: 600; color: var(--ink-2);
@@ -142,7 +145,7 @@ main > section { margin: 0 0 18px; }
   transition: left .9s cubic-bezier(.2,.7,.2,1);
 }
 .horse .crown { font-size: .95rem; height: 1rem; }
-.horse .emoji { font-size: 1.7rem; display: inline-block; transform: scaleX(-1); }
+.horse .art { width: 66px; height: 40px; background: var(--horse-img) center / contain no-repeat; }
 .horse .score { font-size: .75rem; font-weight: 700; background: var(--c); color: #fff; border-radius: 999px; padding: 1px 7px; margin-top: 2px; }
 
 /* Standings */

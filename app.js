@@ -328,7 +328,7 @@
       html += '<div class="lane" style="--c:' + colorVar(p, name) + '">' +
         '<div class="lane-name">' + esc(name) + '</div>' +
         '<div class="horse" style="left:' + pos.toFixed(1) + '%"><span class="crown">' + (r.rank === 1 ? '👑' : '') + '</span>' +
-        '<span class="emoji" aria-hidden="true">🏇</span><span class="score">' + r.total + '</span></div></div>';
+        '<span class="art" aria-hidden="true"></span><span class="score">' + r.total + '</span></div></div>';
     });
     $('#track').innerHTML = html + '</div>';
   }
