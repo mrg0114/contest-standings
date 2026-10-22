@@ -27,6 +27,13 @@ Live standings for a three-horse points contest. The judge enters points through
 4. **Test.** Run `testPayload` (logs the JSON), `testSchedule` (logs the push times), and `testPush` (sends one test notification).
 5. **Page.** Push this repo; GitHub Pages serves `main` from the root. `?demo=1` runs the page on `sample.json`; `?demo=sealed`, `?demo=final`, and `?demo=practice` show the other phases.
 
+## Live values
+
+- Web app: `https://script.google.com/macros/s/AKfycbz9HfhX-Xb_JmhfRE4Pf8ppzuBaus2GZch9GQ-psnHx9PAwenvbK0I6_9cK-acBGPWO/exec` (deployment "Standings data v1", execute as matt@teamgallagher.net, access Anyone).
+- Apps Script project "Platinum +1 Club", bound to the Sheet. Triggers installed Oct. 22, 2026. Script property `ONESIGNAL_APP_ID` is set; `ONESIGNAL_REST_API_KEY` is added by hand.
+- A code change in the editor needs Deploy > Manage deployments > edit > New version, or the web app keeps serving the old code.
+- Some networks block `*.github.io` in DNS (this Mac's Tailscale DNS answers 0.0.0.0). The site itself is fine from public DNS.
+
 ## Changing things
 
 - Competitor names: edit the Form's "Competitor" choices. The script reads them from the Form, so old names drop out of the standings on their own.
