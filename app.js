@@ -573,7 +573,7 @@
     var s = document.createElement('script');
     s.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
     s.defer = true;
-    s.onerror = function () { fail('could not load the OneSignal script (blocked or offline)'); };
+    s.onerror = function () { fail('the notification service (cdn.onesignal.com) was blocked. A privacy or ad-blocking extension, or a DNS filter, is the usual cause. Allow onesignal.com for this site and reload. If you are offline, try again once connected.'); };
     document.head.appendChild(s);
 
     function refresh(OneSignal) {
