@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platinum +1 Club</title>
+<meta name="description" content="Live standings for the Platinum +1 Club.">
+<meta name="theme-color" content="#0f5132">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Platinum +1">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="title">
+    <span class="logo" aria-hidden="true">🏇</span>
+    <div>
+      <h1 id="title">Platinum +1 Club</h1>
+      <div class="status" id="status">Loading…</div>
+    </div>
+  </div>
+  <div class="actions">
+    <button id="notifyBtn" type="button" hidden>🔔 Notifications</button>
+    <button id="refreshBtn" type="button" aria-label="Refresh">↻</button>
+  </div>
+</header>
+
+<div id="banner" class="banner" hidden></div>
+
+<main id="main">
+  <section id="sealed" class="sealed" hidden></section>
+  <section id="final" class="final" hidden></section>
+  <section id="ticker" class="ticker" aria-label="Headlines"></section>
+  <section id="track" class="track" aria-label="The race"></section>
+  <section id="standings" class="standings" aria-label="Standings"></section>
+  <section id="chart" class="chart" aria-label="Points over time"></section>
+  <section id="awards" class="awards" aria-label="Awards"></section>
+  <section id="odds" class="odds" aria-label="Odds board"></section>
+  <section id="rulings" class="rulings" aria-label="The judge's rulings"></section>
+</main>
+
+<footer class="foot">
+  <p id="footNote"></p>
+  <p>Scoring runs on UTC. Times shown in your local zone. <button type="button" class="linkish" id="installLink">Add to your Home Screen</button></p>
+</footer>
+
+<dialog id="installHelp">
+  <h2>Put it on your Home Screen</h2>
+  <ol>
+    <li>Open this page in Safari.</li>
+    <li>Tap the Share button (the square with the arrow pointing up).</li>
+    <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+    <li>If you see an <b>Open as Web App</b> switch, leave it on. Tap <b>Add</b>.</li>
+    <li>Open it from the new icon, then tap <b>Notifications</b> to turn on alerts.</li>
+  </ol>
+  <p class="muted">Notifications on iPhone work only from the Home Screen icon, not from a Safari tab.</p>
+  <form method="dialog"><button type="submit">Got it</button></form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
