@@ -38,4 +38,4 @@ Live standings for a three-horse points contest. The judge enters points through
 
 - Competitor names: edit the Form's "Competitor" choices. The script reads them from the Form, so old names drop out of the standings on their own.
 - Contest name: `CONFIG.NAME` in `Code.gs`, `name` in `config.js`, `manifest.json`, and the OneSignal site name.
-- Icons: `swift tools/make_icons.swift` from the repo root.
+- Artwork: `assets/horse-source.png` is the original icon. `swift tools/make_horse.swift` cuts out `horse.png` (dark theme) and `horse-ink.png` (light theme); `swift tools/make_icons.swift` then builds the Home Screen icons on the wine background. Bump the `?v=` on the icon links in `index.html` and `manifest.json` after changing them.
