@@ -538,24 +538,42 @@
     btn.hidden = false;
     var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     var standalone = navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-    var ready = false;
+    var ready = false, failed = '', startedAt = Date.now();
+    window.__pushDebug = { stage: 'loading sdk' };
+    function fail(msg) {
+      failed = msg;
+      window.__pushDebug.stage = 'failed';
+      window.__pushDebug.error = msg;
+      console.warn('Push setup failed:', msg);
+    }
 
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function (OneSignal) {
-      return OneSignal.init({
-        appId: CFG.oneSignalAppId,
-        serviceWorkerParam: { scope: CFG.swScope },
-        serviceWorkerPath: CFG.swPath,
-        notifyButton: { enable: false }
-      }).then(function () {
+      window.__pushDebug.stage = 'init';
+      var init;
+      try {
+        init = OneSignal.init({
+          appId: CFG.oneSignalAppId,
+          serviceWorkerParam: { scope: CFG.swScope },
+          serviceWorkerPath: CFG.swPath,
+          notifyButton: { enable: false }
+        });
+      } catch (err) {
+        fail(String(err && err.message || err));
+        return;
+      }
+      return Promise.resolve(init).then(function () {
         ready = true;
+        window.__pushDebug.stage = 'ready';
+        window.__pushDebug.supported = OneSignal.Notifications.isPushSupported();
         refresh(OneSignal);
         OneSignal.User.PushSubscription.addEventListener('change', function () { refresh(OneSignal); });
-      }).catch(function (err) { console.warn('OneSignal init failed', err); });
+      }).catch(function (err) { fail(String(err && err.message || err)); });
     });
     var s = document.createElement('script');
     s.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
     s.defer = true;
+    s.onerror = function () { fail('could not load the OneSignal script (blocked or offline)'); };
     document.head.appendChild(s);
 
     function refresh(OneSignal) {
@@ -565,7 +583,19 @@
     }
     btn.addEventListener('click', function () {
       if (isIOS && !standalone) { $('#installHelp').showModal(); return; }
-      if (!ready) { alert('One moment, the notification service is still loading.'); return; }
+      if (failed) { alert('Notifications are not available: ' + failed); return; }
+      if (!ready) {
+        var secs = Math.round((Date.now() - startedAt) / 1000);
+        if (secs < 8) { alert('One moment, the notification service is still loading.'); return; }
+        var ios = (navigator.userAgent.match(/OS (\d+)_(\d+)/) || []).slice(1).join('.');
+        var pushApi = typeof PushSubscriptionOptions !== 'undefined';
+        var why = window.__pushDebug.stage === 'loading sdk' && !pushApi
+          ? 'This browser does not offer web push here. On iPhone it works only from the Home Screen icon, on iOS 16.4 or later.'
+          : 'The notification service has not started after ' + secs + ' seconds.';
+        alert(why + '\n\nDetails: stage ' + window.__pushDebug.stage + ', push API ' + (pushApi ? 'yes' : 'no') +
+          ', home screen ' + (standalone ? 'yes' : 'no') + (ios ? ', iOS ' + ios : '') + '. Send Matt a screenshot of this message.');
+        return;
+      }
       window.OneSignalDeferred.push(function (OneSignal) {
         if (OneSignal.Notifications.permission && OneSignal.User.PushSubscription.optedIn) {
           return OneSignal.User.PushSubscription.optOut().then(function () { refresh(OneSignal); });
