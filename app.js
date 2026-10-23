@@ -625,7 +625,9 @@
   }
 
   /* ---------- the Paddock (message board) ---------- */
-  var paddock = { on: false, demo: false, posts: [], lastFetch: 0, fetching: false, shown: 30 };
+  // posts: everything loaded so far, newest first. Polling refreshes the newest page; "Show older posts"
+  // fetches the page before the oldest one loaded. pinned: the judge's latest post, sent by the server.
+  var paddock = { on: false, demo: false, posts: [], pinned: null, hasMore: false, lastFetch: 0, fetching: false, loadingOlder: false };
   var PADDOCK_KEYS = { name: 'p1c.paddock.name', code: 'p1c.paddock.code', seen: 'p1c.paddock.seen' };
   var ROLE_BADGE = { judge: '⚖️ Judge', competitor: '🏇 Competitor', fan: '' };
 
@@ -672,17 +674,42 @@
     fetchPaddock();
   }
 
+  function normPost(p, now) {
+    return { id: String(p.id), iso: p.t, t: p.dh != null ? now + p.dh * H : Date.parse(p.t), name: p.name, role: p.role, msg: p.msg };
+  }
+  // Newest first; ties on time broken by id, the same order the server uses.
+  function byNewest(a, b) { return (b.t - a.t) || (a.id < b.id ? 1 : a.id > b.id ? -1 : 0); }
+  function isOlder(a, b) { return byNewest(a, b) > 0; }
+  function paddockUrl(params) {
+    var q = Object.keys(params).map(function (k) { return k + '=' + encodeURIComponent(params[k]); }).join('&');
+    return CFG.paddockUrl + (CFG.paddockUrl.indexOf('?') >= 0 ? '&' : '?') + q;
+  }
+
+  /** Refreshes the newest page, keeping any older pages already loaded below it. */
   function fetchPaddock() {
     if (!paddock.on || paddock.fetching) return;
     paddock.fetching = true;
-    var url = paddock.demo ? 'sample-paddock.json' : CFG.paddockUrl + (CFG.paddockUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
+    var url = paddock.demo ? 'sample-paddock.json' : paddockUrl({ limit: 30, t: Date.now() });
     fetch(url, { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (data) {
         var now = Date.now();
-        paddock.posts = (data.posts || []).map(function (p) {
-          return { id: p.id, t: p.dh != null ? now + p.dh * H : Date.parse(p.t), name: p.name, role: p.role, msg: p.msg };
-        }).sort(function (a, b) { return b.t - a.t; });
+        var fresh = (data.posts || []).map(function (p) { return normPost(p, now); }).sort(byNewest);
+        if (paddock.demo) {
+          paddock.posts = fresh;
+          paddock.hasMore = false;
+          paddock.pinned = fresh.filter(function (p) { return p.role === 'judge'; })[0] || null;
+        } else {
+          var boundary = fresh[fresh.length - 1];
+          var older = boundary ? paddock.posts.filter(function (p) { return isOlder(p, boundary); }) : [];
+          // If more than a page arrived since the last refresh, there could be a gap between the new
+          // page and what was loaded before; drop the old pages and let "Show older posts" reload them.
+          var prevNewest = paddock.posts[0];
+          var gap = prevNewest && boundary && isOlder(prevNewest, boundary) && data.hasMore;
+          if (gap || !older.length) { older = []; paddock.hasMore = !!data.hasMore; }
+          paddock.posts = fresh.concat(older);
+          paddock.pinned = data.pinned ? normPost(data.pinned, now) : null;
+        }
         paddock.lastFetch = now;
         renderPaddock();
       })
@@ -690,6 +717,26 @@
         if (!paddock.posts.length) $('#paddockList').innerHTML = '<div class="chart-empty">Can\'t reach the Paddock right now.</div>';
       })
       .then(function () { paddock.fetching = false; });
+  }
+
+  /** Fetches the page before the oldest post loaded. */
+  function loadOlder() {
+    var oldest = paddock.posts[paddock.posts.length - 1];
+    if (!oldest || paddock.loadingOlder || paddock.demo) return;
+    paddock.loadingOlder = true;
+    renderPaddock();
+    fetch(paddockUrl({ limit: 30, before: oldest.iso, beforeId: oldest.id }), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        var now = Date.now();
+        var have = {};
+        paddock.posts.forEach(function (p) { have[p.id] = true; });
+        (data.posts || []).forEach(function (p) { if (!have[p.id]) paddock.posts.push(normPost(p, now)); });
+        paddock.posts.sort(byNewest);
+        paddock.hasMore = !!data.hasMore;
+      })
+      .catch(function () { })
+      .then(function () { paddock.loadingOlder = false; renderPaddock(); });
   }
 
   function roleClass(role) { return role === 'judge' || role === 'competitor' ? role : 'fan'; }
@@ -706,15 +753,16 @@
   function renderPaddock() {
     if (!paddock.on) return;
     var now = Date.now();
-    var judge = paddock.posts.filter(function (p) { return p.role === 'judge'; })[0];
+    var judge = paddock.pinned;
     $('#paddockPinned').innerHTML = judge ? '<div class="pd-pin-label">From the bench</div>' + postHtml(judge, now, true) : '';
-    var items = paddock.posts.slice(0, paddock.shown);
-    var html = items.length ? items.map(function (p) { return postHtml(p, now, false); }).join('')
+    var html = paddock.posts.length ? paddock.posts.map(function (p) { return postHtml(p, now, false); }).join('')
       : '<div class="chart-empty">No posts yet. Start the trash talk.</div>';
-    if (paddock.posts.length > paddock.shown) html += '<button type="button" class="linkish pd-more" id="pdMore">Show older posts</button>';
+    if (paddock.hasMore) {
+      html += '<button type="button" class="linkish pd-more" id="pdMore"' + (paddock.loadingOlder ? ' disabled>Loading…' : '>Show older posts') + '</button>';
+    }
     $('#paddockList').innerHTML = html;
     var more = $('#pdMore');
-    if (more) more.addEventListener('click', function () { paddock.shown += 30; renderPaddock(); });
+    if (more) more.addEventListener('click', loadOlder);
     var newest = paddock.posts[0] ? paddock.posts[0].t : 0;
     $('#paddockBtn').classList.toggle('has-new', newest > Number(recall(PADDOCK_KEYS.seen) || 0));
   }
@@ -741,7 +789,9 @@
         else { store(PADDOCK_KEYS.name, null); store(PADDOCK_KEYS.code, null); }
         $('#pdMsg').value = ''; $('#pdCount').textContent = '0 / 500';
         status.textContent = 'Posted.';
-        paddock.posts.unshift({ id: res.post.id, t: Date.parse(res.post.t), name: res.post.name, role: res.post.role, msg: res.post.msg });
+        var mine = normPost(res.post, Date.now());
+        paddock.posts.unshift(mine);
+        if (mine.role === 'judge') paddock.pinned = mine;
         renderPaddock();
         markSeen();
       })
