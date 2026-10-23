@@ -57,6 +57,16 @@ Live standings for a three-horse points contest. The judge enters points through
 - Rules: `rules.md` from the site, the constitution. Edit it here and push; the app picks it up without a new build. `ios/PlatinumPlusOne/rules.md` is the copy built into the app for offline use, so update it too before the next build.
 - Donate: a placeholder, hidden (`Site.showDonateTab`) until there is a charity link. App Review turns away placeholder screens, and unless the charity is an Apple-approved nonprofit the donation has to open in Safari.
 
+### Apple Watch
+
+The watch app (`ios/PlatinumPlusOneWatch`) ships inside the iPhone app and installs on a paired watch with it. It reads the scoring feed itself and works out the standings the way the page does (`ios/Shared/Contest.swift` ports `ranking`, `phaseOf`, and `dayOf` from app.js). One screen: the day, the three standings with tier icons and the page's wording ("leads by 2," "level, behind on the tie-breaker"), the latest ruling with the judge's reason, and Refresh. Notifications come from the iPhone app; iOS forwards them to the watch when the phone is locked.
+
+The complication (`ios/PlatinumPlusOneWatchWidget`) shows who leads and by how much, in the rectangular, circular, inline, and corner sizes. It reloads every 30 minutes, and its timeline carries entries for the seal and for takeoff, so it changes at those moments without a reload.
+
+The seal: during the final 24 hours the watch screen and the complication show the lock and the countdown and nothing about the standings, whatever data they hold. After takeoff they show results only from a copy of the feed generated after takeoff, since rulings can land right up to it.
+
+Debug builds take two launch arguments: `-PlusOneNow 2026-11-12T03:00:00Z` pretends it is another moment (to see the sealed and final screens), and `-ComplicationGallery YES` draws every complication size in every phase.
+
 To send a new build to TestFlight, raise `CURRENT_PROJECT_VERSION` in the project, then from `ios/`:
 
 ```bash

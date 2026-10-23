@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		A1B2C3D40000000000000011 /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D40000000000000012 /* OneSignalFramework */; };
+		B2C3D4E50000000000000011 /* PlatinumPlusOneWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B2C3D4E50000000000000001 /* PlatinumPlusOneWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B2C3D4E50000000000000012 /* PlatinumPlusOneWatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B2C3D4E50000000000000002 /* PlatinumPlusOneWatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A1B2C3D40000000000000001 /* PlatinumPlusOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatinumPlusOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3D40000000000000002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1B2C3D40000000000000003 /* PlatinumPlusOne.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlatinumPlusOne.entitlements; sourceTree = "<group>"; };
+		B2C3D4E50000000000000001 /* PlatinumPlusOneWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatinumPlusOneWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2C3D4E50000000000000002 /* PlatinumPlusOneWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PlatinumPlusOneWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -22,7 +26,45 @@
 			path = PlatinumPlusOne;
 			sourceTree = "<group>";
 		};
+		B2C3D4E50000000000000004 /* PlatinumPlusOneWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B2C3D4E50000000000000091 /* Exceptions for "PlatinumPlusOneWatch" folder in "PlatinumPlusOneWatch" target */,
+			);
+			path = PlatinumPlusOneWatch;
+			sourceTree = "<group>";
+		};
+		B2C3D4E50000000000000005 /* PlatinumPlusOneWatchWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B2C3D4E50000000000000092 /* Exceptions for "PlatinumPlusOneWatchWidget" folder in "PlatinumPlusOneWatchWidget" target */,
+			);
+			path = PlatinumPlusOneWatchWidget;
+			sourceTree = "<group>";
+		};
+		B2C3D4E50000000000000006 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B2C3D4E50000000000000091 /* Exceptions for "PlatinumPlusOneWatch" folder in "PlatinumPlusOneWatch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B2C3D4E50000000000000041 /* PlatinumPlusOneWatch */;
+		};
+		B2C3D4E50000000000000092 /* Exceptions for "PlatinumPlusOneWatchWidget" folder in "PlatinumPlusOneWatchWidget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B2C3D4E50000000000000042 /* PlatinumPlusOneWatchWidget */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A1B2C3D40000000000000021 /* Frameworks */ = {
@@ -33,6 +75,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2C3D4E50000000000000021 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C3D4E50000000000000024 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,6 +96,9 @@
 			isa = PBXGroup;
 			children = (
 				A1B2C3D40000000000000004 /* PlatinumPlusOne */,
+				B2C3D4E50000000000000004 /* PlatinumPlusOneWatch */,
+				B2C3D4E50000000000000005 /* PlatinumPlusOneWatchWidget */,
+				B2C3D4E50000000000000006 /* Shared */,
 				A1B2C3D40000000000000002 /* Info.plist */,
 				A1B2C3D40000000000000003 /* PlatinumPlusOne.entitlements */,
 				A1B2C3D40000000000000032 /* Products */,
@@ -50,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				A1B2C3D40000000000000001 /* PlatinumPlusOne.app */,
+				B2C3D4E50000000000000001 /* PlatinumPlusOneWatch.app */,
+				B2C3D4E50000000000000002 /* PlatinumPlusOneWatchWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,10 +125,12 @@
 				A1B2C3D40000000000000022 /* Sources */,
 				A1B2C3D40000000000000021 /* Frameworks */,
 				A1B2C3D40000000000000023 /* Resources */,
+				B2C3D4E50000000000000027 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B2C3D4E50000000000000083 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A1B2C3D40000000000000004 /* PlatinumPlusOne */,
@@ -80,6 +143,54 @@
 			productReference = A1B2C3D40000000000000001 /* PlatinumPlusOne.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B2C3D4E50000000000000041 /* PlatinumPlusOneWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2C3D4E50000000000000062 /* Build configuration list for PBXNativeTarget "PlatinumPlusOneWatch" */;
+			buildPhases = (
+				B2C3D4E50000000000000022 /* Sources */,
+				B2C3D4E50000000000000021 /* Frameworks */,
+				B2C3D4E50000000000000023 /* Resources */,
+				B2C3D4E50000000000000028 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2C3D4E50000000000000084 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B2C3D4E50000000000000004 /* PlatinumPlusOneWatch */,
+				B2C3D4E50000000000000006 /* Shared */,
+			);
+			name = PlatinumPlusOneWatch;
+			packageProductDependencies = (
+			);
+			productName = PlatinumPlusOneWatch;
+			productReference = B2C3D4E50000000000000001 /* PlatinumPlusOneWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B2C3D4E50000000000000042 /* PlatinumPlusOneWatchWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2C3D4E50000000000000063 /* Build configuration list for PBXNativeTarget "PlatinumPlusOneWatchWidget" */;
+			buildPhases = (
+				B2C3D4E50000000000000025 /* Sources */,
+				B2C3D4E50000000000000024 /* Frameworks */,
+				B2C3D4E50000000000000026 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B2C3D4E50000000000000005 /* PlatinumPlusOneWatchWidget */,
+				B2C3D4E50000000000000006 /* Shared */,
+			);
+			name = PlatinumPlusOneWatchWidget;
+			packageProductDependencies = (
+			);
+			productName = PlatinumPlusOneWatchWidget;
+			productReference = B2C3D4E50000000000000002 /* PlatinumPlusOneWatchWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -91,6 +202,12 @@
 				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					A1B2C3D40000000000000041 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					B2C3D4E50000000000000041 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					B2C3D4E50000000000000042 = {
 						CreatedOnToolsVersion = 27.1;
 					};
 				};
@@ -113,6 +230,8 @@
 			projectRoot = "";
 			targets = (
 				A1B2C3D40000000000000041 /* PlatinumPlusOne */,
+				B2C3D4E50000000000000041 /* PlatinumPlusOneWatch */,
+				B2C3D4E50000000000000042 /* PlatinumPlusOneWatchWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -125,10 +244,93 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2C3D4E50000000000000023 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C3D4E50000000000000026 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B2C3D4E50000000000000027 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B2C3D4E50000000000000011 /* PlatinumPlusOneWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C3D4E50000000000000028 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B2C3D4E50000000000000012 /* PlatinumPlusOneWatchWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		B2C3D4E50000000000000081 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1B2C3D40000000000000051 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C3D4E50000000000000041;
+			remoteInfo = PlatinumPlusOneWatch;
+		};
+		B2C3D4E50000000000000082 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1B2C3D40000000000000051 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C3D4E50000000000000042;
+			remoteInfo = PlatinumPlusOneWatchWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		B2C3D4E50000000000000083 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C3D4E50000000000000041 /* PlatinumPlusOneWatch */;
+			targetProxy = B2C3D4E50000000000000081 /* PBXContainerItemProxy */;
+		};
+		B2C3D4E50000000000000084 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C3D4E50000000000000042 /* PlatinumPlusOneWatchWidget */;
+			targetProxy = B2C3D4E50000000000000082 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A1B2C3D40000000000000022 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C3D4E50000000000000022 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C3D4E50000000000000025 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -194,7 +396,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PlatinumPlusOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = VNA7994H29;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -226,7 +428,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PlatinumPlusOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = VNA7994H29;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -251,6 +453,126 @@
 			};
 			name = Release;
 		};
+		B2C3D4E50000000000000073 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = VNA7994H29;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatinumPlusOneWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Platinum +1";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.teamgallagher.platinumplusone.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B2C3D4E50000000000000074 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = VNA7994H29;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatinumPlusOneWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Platinum +1";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.teamgallagher.platinumplusone.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		B2C3D4E50000000000000075 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = VNA7994H29;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatinumPlusOneWatchWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Platinum +1";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.teamgallagher.platinumplusone.watchkitapp.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B2C3D4E50000000000000076 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = VNA7994H29;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatinumPlusOneWatchWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Platinum +1";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.teamgallagher.platinumplusone.watchkitapp.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -268,6 +590,24 @@
 			buildConfigurations = (
 				A1B2C3D40000000000000073 /* Debug */,
 				A1B2C3D40000000000000074 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2C3D4E50000000000000062 /* Build configuration list for PBXNativeTarget "PlatinumPlusOneWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C3D4E50000000000000073 /* Debug */,
+				B2C3D4E50000000000000074 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2C3D4E50000000000000063 /* Build configuration list for PBXNativeTarget "PlatinumPlusOneWatchWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C3D4E50000000000000075 /* Debug */,
+				B2C3D4E50000000000000076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
