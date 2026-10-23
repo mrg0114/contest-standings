@@ -82,7 +82,7 @@ Section 4. If two contestants share platinum under Article IV, Section 6, the Ju
 
 Section 1. Each traveler needs a New Zealand tourist visa. It is applied for online by logging into the American Airlines account and opening My Trips, where each traveler also updates passport and emergency contact information. The Judge holds dinner planning to be equally important.
 
-Section 2. The flight from Dallas/Fort Worth to Auckland (AA 35) leaves at 11:55 PM CDT. Dinner begins about 45 minutes after takeoff, and by the time the main course is cleared it will feel like 1:30 AM. Breakfast is served two hours before landing, the galley keeps sandwiches, fruit, and snacks out all flight, and most flights add an optional beef tenderloin slider between services.
+Section 2. The flight from Dallas/Fort Worth to Auckland leaves at 11:55 PM CDT. Dinner begins about 45 minutes after takeoff, and by the time the main course is cleared it will feel like 1:30 AM. Breakfast is served two hours before landing, the galley keeps sandwiches, fruit, and snacks out all flight, and most flights add an optional beef tenderloin slider between services.
 
 Section 3. Three dining strategies are lawful.
 
@@ -168,13 +168,6 @@ John, total 3.
 | Combined with Jen, talking loudly | -1 |
 
 ## Schedule B. The course and the clock
-
-| Leg | Departs | Arrives |
-|---|---|---|
-| AA 1264, ORD to DFW | Oct. 28, 11:00 AM CDT | 1:43 PM CDT |
-| AA 35, DFW to AKL | Oct. 28, 11:55 PM CDT | Oct. 30, 9:10 AM NZDT |
-| AA 34, AKL to DFW | Nov. 13, 1:20 PM NZDT | Nov. 13, 8:00 AM CST |
-| AA 214, DFW to ORD | Nov. 13, 9:52 AM CST | 12:24 PM CST |
 
 | Event | UTC | Party clock |
 |---|---|---|
