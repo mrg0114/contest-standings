@@ -518,7 +518,8 @@
   function renderSponsor() {
     var sp = CFG.sponsor;
     var el = $('#sponsor');
-    if (!sp || !sp.name) { el.hidden = true; return; }
+    // The iPhone app leaves the banner out; the website keeps it.
+    if (!sp || !sp.name || IN_APP) { el.hidden = true; return; }
     var mark = sp.logo
       ? '<img class="sponsor-logo" src="' + esc(sp.logo) + '" alt="' + esc(sp.name) + '">'
       : '<span class="sponsor-name">' + esc(sp.name) + '</span>';
