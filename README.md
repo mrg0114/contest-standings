@@ -55,7 +55,7 @@ Live standings for a three-horse points contest. The judge enters points through
 - Standings: the standings page in a web view. Debug builds load the test site and Release builds the live site (`SITE_URL` in the build settings). The page recognizes the app by its user agent: it hides the Paddock and the Add to Home Screen link, and its bell asks the app to turn notifications on.
 - Paddock: native, on the same Apps Script web app as the website, so posts show in both. In Debug, launching with `-PaddockDemo YES` pages through 75 made-up posts instead.
 - Rules: `rules.md` from the site, the constitution. Edit it here and push; the app picks it up without a new build. `ios/PlatinumPlusOne/rules.md` is the copy built into the app for offline use, so update it too before the next build.
-- Donate: a placeholder.
+- Donate: a placeholder, hidden (`Site.showDonateTab`) until there is a charity link. App Review turns away placeholder screens, and unless the charity is an Apple-approved nonprofit the donation has to open in Safari.
 
 Notifications go through OneSignal's iOS SDK in the same OneSignal app as the website, so the scoring script's notifications reach phones with the app too. That needs the Apple push key (.p8) added in OneSignal under the iOS platform. `config.js` has `testFlightUrl`; once set, iPhone visitors in Safari see the app as a choice in the install help.
 

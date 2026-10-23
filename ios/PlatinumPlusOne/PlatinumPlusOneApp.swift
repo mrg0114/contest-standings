@@ -42,6 +42,11 @@ enum Site {
     /// The rules as published on the site. Edit rules.md in the repo and the Rules tab follows.
     static var rulesURL: URL { url.appendingPathComponent("rules.md") }
 
+    /// The Donate tab stays hidden until there is a charity link: App Review turns away placeholder
+    /// screens (guideline 2.1), and unless the charity is an Apple-approved nonprofit the donation
+    /// itself has to happen outside the app, in Safari (guideline 3.2.2).
+    static let showDonateTab = false
+
     static var version: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
     }

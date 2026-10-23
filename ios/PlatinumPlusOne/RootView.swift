@@ -23,9 +23,11 @@ struct RootView: View {
             RulesView(model: rules)
                 .tabItem { Label("Rules", systemImage: "scroll") }
                 .tag(Tab.rules)
-            DonateView()
-                .tabItem { Label("Donate", systemImage: "heart") }
-                .tag(Tab.donate)
+            if Site.showDonateTab {
+                DonateView()
+                    .tabItem { Label("Donate", systemImage: "heart") }
+                    .tag(Tab.donate)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .plusOneOpen)) { _ in tab = .standings }
         .task(id: phase) {
