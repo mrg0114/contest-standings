@@ -253,6 +253,56 @@ main > section { margin: 0 0 18px; }
 @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: .6; } }
 @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
 
+/* Test-site strip */
+.test-strip {
+  margin: 0 -16px; padding: 6px 16px; text-align: center; font-size: .78rem; font-weight: 700;
+  letter-spacing: .04em; background: #fff3c4; color: #5a4300; border-bottom: 1px solid #f0d77a;
+}
+
+/* The Paddock */
+#paddockBtn { position: relative; }
+#paddockBtn.has-new::after {
+  content: ""; position: absolute; top: 3px; right: 3px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--down); box-shadow: 0 0 0 2px var(--page);
+}
+.paddock-sub { margin: -4px 0 10px; color: var(--ink-2); font-size: .9rem; }
+.pd-pin-label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+#paddockPinned { margin-bottom: 10px; }
+.composer { margin-bottom: 10px; }
+.compose-open {
+  width: 100%; border: 1px dashed var(--axis); background: transparent; color: var(--ink-2);
+  border-radius: 10px; padding: 12px; cursor: pointer; font-weight: 600;
+}
+#composeForm { display: grid; gap: 10px; }
+#composeForm label { display: grid; gap: 4px; font-size: .8rem; font-weight: 600; color: var(--ink-2); }
+#composeForm input:not([type=checkbox]), #composeForm textarea {
+  font: inherit; font-size: 16px; /* 16px stops iPhone from zooming on focus */
+  color: var(--ink); background: var(--page); border: 1px solid var(--ring); border-radius: 10px; padding: 10px 12px; width: 100%;
+}
+#composeForm textarea { resize: vertical; min-height: 76px; }
+#composeForm .remember { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.compose-count { font-size: .72rem; color: var(--muted); text-align: right; margin-top: -6px; }
+.compose-hint { margin: 0; font-size: .76rem; color: var(--muted); }
+.compose-actions { display: flex; align-items: center; gap: 14px; }
+.compose-actions button[type=submit] {
+  border: 0; background: var(--green); color: #fff; border-radius: 999px; padding: 9px 20px; font-weight: 700; cursor: pointer;
+}
+.compose-actions button[disabled] { opacity: .6; cursor: default; }
+.compose-status { margin: 0; font-size: .85rem; color: var(--ink-2); min-height: 1.2em; }
+.pd-post { padding: 10px 0; border-bottom: 1px solid var(--grid); }
+.pd-post:last-child { border-bottom: 0; }
+.pd-post header { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.pd-name { font-weight: 700; }
+.pd-post.pd-competitor .pd-name { color: var(--ink); border-bottom: 2px solid var(--c); }
+.pd-badge { font-size: .68rem; font-weight: 700; border-radius: 999px; padding: 2px 8px; background: var(--grid); color: var(--ink-2); }
+.pd-badge.pd-judge { background: #4a1526; color: #f4e9dc; }
+.pd-post time { margin-left: auto; font-size: .74rem; color: var(--muted); white-space: nowrap; }
+.pd-post p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.pd-post.pinned {
+  background: var(--surface); border: 1px solid var(--ring); border-left: 4px solid #4a1526; border-radius: var(--radius); padding: 12px 14px;
+}
+.pd-more { display: block; margin: 10px auto 0; }
+
 /* Sponsor banner: the page's own wine and cream, kept separate from the sponsor's mark */
 .sponsor { margin: 8px 0 18px; }
 .sponsor-card {

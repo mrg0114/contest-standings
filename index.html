@@ -13,7 +13,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=6">
 <link rel="icon" href="icon-192.png?v=6">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 <header class="top">
@@ -25,6 +25,7 @@
     </div>
   </div>
   <div class="actions">
+    <button id="paddockBtn" type="button" aria-label="Go to the Paddock" hidden>💬<span class="label"> Paddock</span></button>
     <button id="notifyBtn" type="button" aria-label="Turn on notifications" hidden>🔔<span class="label"> Notifications</span></button>
     <button id="refreshBtn" type="button" aria-label="Refresh">↻</button>
   </div>
@@ -42,6 +43,7 @@
   <section id="awards" class="awards" aria-label="Awards"></section>
   <section id="odds" class="odds" aria-label="Odds board"></section>
   <section id="rulings" class="rulings" aria-label="The judge's rulings"></section>
+  <section id="paddock" class="paddock" aria-label="The Paddock" hidden></section>
 </main>
 
 <aside id="sponsor" class="sponsor" aria-label="Sponsor" hidden></aside>
@@ -49,7 +51,7 @@
 <footer class="foot">
   <p id="footNote"></p>
   <p>Scoring runs on UTC. Times shown in your local zone. <button type="button" class="linkish" id="installLink">Add to your Home Screen</button></p>
-  <p class="version">Platinum +1 Club · Version 1.0</p>
+  <p class="version" id="versionLine">Platinum +1 Club · Version 2.0</p>
 </footer>
 
 <dialog id="installHelp">
@@ -65,7 +67,7 @@
   <form method="dialog"><button type="submit">Got it</button></form>
 </dialog>
 
-<script src="config.js?v=3"></script>
-<script src="app.js?v=7"></script>
+<script src="config.js?v=4"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

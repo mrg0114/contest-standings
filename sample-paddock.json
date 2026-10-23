@@ -1,0 +1,11 @@
+{
+  "demo": true,
+  "posts": [
+    { "id": "d1", "dh": -0.2, "name": "Paul", "role": "judge", "msg": "The court is in session. Proxy eating will be scored at the judge's discretion." },
+    { "id": "d2", "dh": -0.5, "name": "Kathy", "role": "competitor", "msg": "I would like to file an appeal regarding the eye-rolling ruling.\nI was looking at the ceiling." },
+    { "id": "d3", "dh": -1.1, "name": "Aunt Sue", "role": "fan", "msg": "Go Blas!" },
+    { "id": "d4", "dh": -2.4, "name": "Blas", "role": "competitor", "msg": "The crabcake was excellent, thank you Bo." },
+    { "id": "d5", "dh": -3.0, "name": "Matt", "role": "fan", "msg": "Odds board says Kathy. The odds board has never been wrong." },
+    { "id": "d6", "dh": -5.5, "name": "Jen", "role": "competitor", "msg": "Zero points is a strategy. You'll see." }
+  ]
+}

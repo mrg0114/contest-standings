@@ -262,6 +262,7 @@
     renderOdds(p, ranks, now, phase);
     renderRulings(p, now);
     $('#footNote').textContent = 'Ranking: total points, then most points earned, then fewest points lost. 4h and 24h are rolling windows. Momentum compares the last 24 hours with the 24 before.';
+    if (paddock.on && paddock.lastFetch) renderPaddock(); // refreshes "5m ago" times and competitor colors
   }
 
   function renderSealed(p, now) {
@@ -623,6 +624,131 @@
     });
   }
 
+  /* ---------- the Paddock (message board) ---------- */
+  var paddock = { on: false, demo: false, posts: [], lastFetch: 0, fetching: false, shown: 30 };
+  var PADDOCK_KEYS = { name: 'p1c.paddock.name', code: 'p1c.paddock.code', seen: 'p1c.paddock.seen' };
+  var ROLE_BADGE = { judge: '⚖️ Judge', competitor: '🏇 Competitor', fan: '' };
+
+  function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { } }
+  function recall(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
+
+  function setupPaddock() {
+    paddock.on = !!CFG.paddockUrl || DEMO;
+    paddock.demo = !CFG.paddockUrl;
+    var el = $('#paddock');
+    if (!paddock.on) { el.hidden = true; $('#paddockBtn').hidden = true; return; }
+    el.hidden = false;
+    $('#paddockBtn').hidden = false;
+    el.innerHTML =
+      '<h2>The Paddock</h2>' +
+      '<p class="paddock-sub">Talk, trash talk, and appeals. Appeals are heard never.</p>' +
+      '<div id="paddockPinned"></div>' +
+      '<div class="panel composer">' +
+      '  <button type="button" class="compose-open" id="composeOpen">Write a post</button>' +
+      '  <form id="composeForm" hidden autocomplete="off">' +
+      '    <label>Your name<input id="pdName" maxlength="30" placeholder="How you want to appear"></label>' +
+      '    <label>Message<textarea id="pdMsg" maxlength="500" rows="3" placeholder="Keep it friendly-ish"></textarea></label>' +
+      '    <div class="compose-count" id="pdCount">0 / 500</div>' +
+      '    <label>Passcode<input id="pdCode" type="password" autocomplete="off" placeholder="From the announcement"></label>' +
+      '    <label class="remember"><input type="checkbox" id="pdRemember" checked> Remember my name and passcode on this device</label>' +
+      '    <p class="compose-hint">Paul and the competitors: your own passcode signs the post with your name and badge.</p>' +
+      '    <div class="compose-actions"><button type="submit" id="pdSend">Post</button><button type="button" class="linkish" id="composeClose">Cancel</button></div>' +
+      '    <p class="compose-status" id="pdStatus" role="status"></p>' +
+      '  </form>' +
+      '</div>' +
+      '<div class="panel" id="paddockList"><div class="chart-empty">Loading the Paddock…</div></div>';
+
+    $('#pdName').value = recall(PADDOCK_KEYS.name);
+    $('#pdCode').value = recall(PADDOCK_KEYS.code);
+    $('#composeOpen').addEventListener('click', function () {
+      $('#composeForm').hidden = false; $('#composeOpen').hidden = true; $('#pdMsg').focus();
+    });
+    $('#composeClose').addEventListener('click', function () {
+      $('#composeForm').hidden = true; $('#composeOpen').hidden = false; $('#pdStatus').textContent = '';
+    });
+    $('#pdMsg').addEventListener('input', function () { $('#pdCount').textContent = this.value.length + ' / 500'; });
+    $('#composeForm').addEventListener('submit', function (ev) { ev.preventDefault(); sendPost(); });
+    $('#paddockBtn').addEventListener('click', function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); markSeen(); });
+    fetchPaddock();
+  }
+
+  function fetchPaddock() {
+    if (!paddock.on || paddock.fetching) return;
+    paddock.fetching = true;
+    var url = paddock.demo ? 'sample-paddock.json' : CFG.paddockUrl + (CFG.paddockUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (data) {
+        var now = Date.now();
+        paddock.posts = (data.posts || []).map(function (p) {
+          return { id: p.id, t: p.dh != null ? now + p.dh * H : Date.parse(p.t), name: p.name, role: p.role, msg: p.msg };
+        }).sort(function (a, b) { return b.t - a.t; });
+        paddock.lastFetch = now;
+        renderPaddock();
+      })
+      .catch(function () {
+        if (!paddock.posts.length) $('#paddockList').innerHTML = '<div class="chart-empty">Can\'t reach the Paddock right now.</div>';
+      })
+      .then(function () { paddock.fetching = false; });
+  }
+
+  function roleClass(role) { return role === 'judge' || role === 'competitor' ? role : 'fan'; }
+
+  function postHtml(po, now, pinned) {
+    var color = state.p && state.p.competitors.indexOf(po.name) >= 0 ? colorVar(state.p, po.name) : 'var(--muted)';
+    var badge = ROLE_BADGE[po.role] ? '<span class="pd-badge pd-' + roleClass(po.role) + '">' + ROLE_BADGE[po.role] + '</span>' : '';
+    return '<article class="pd-post pd-' + roleClass(po.role) + (pinned ? ' pinned' : '') + '" style="--c:' + color + '">' +
+      '<header><span class="pd-name">' + esc(po.name) + '</span>' + badge +
+      '<time datetime="' + new Date(po.t).toISOString() + '" title="' + esc(fmtLocal(po.t)) + '">' + esc(fmtAgo(po.t, now)) + '</time></header>' +
+      '<p>' + esc(po.msg).replace(/\n/g, '<br>') + '</p></article>';
+  }
+
+  function renderPaddock() {
+    if (!paddock.on) return;
+    var now = Date.now();
+    var judge = paddock.posts.filter(function (p) { return p.role === 'judge'; })[0];
+    $('#paddockPinned').innerHTML = judge ? '<div class="pd-pin-label">From the bench</div>' + postHtml(judge, now, true) : '';
+    var items = paddock.posts.slice(0, paddock.shown);
+    var html = items.length ? items.map(function (p) { return postHtml(p, now, false); }).join('')
+      : '<div class="chart-empty">No posts yet. Start the trash talk.</div>';
+    if (paddock.posts.length > paddock.shown) html += '<button type="button" class="linkish pd-more" id="pdMore">Show older posts</button>';
+    $('#paddockList').innerHTML = html;
+    var more = $('#pdMore');
+    if (more) more.addEventListener('click', function () { paddock.shown += 30; renderPaddock(); });
+    var newest = paddock.posts[0] ? paddock.posts[0].t : 0;
+    $('#paddockBtn').classList.toggle('has-new', newest > Number(recall(PADDOCK_KEYS.seen) || 0));
+  }
+
+  function markSeen() {
+    if (paddock.posts[0]) store(PADDOCK_KEYS.seen, String(paddock.posts[0].t));
+    $('#paddockBtn').classList.remove('has-new');
+  }
+
+  function sendPost() {
+    var status = $('#pdStatus'), btn = $('#pdSend');
+    var body = { name: $('#pdName').value.trim(), message: $('#pdMsg').value.trim(), passcode: $('#pdCode').value.trim() };
+    if (!body.message) { status.textContent = 'Write something first.'; return; }
+    if (!body.passcode) { status.textContent = 'Enter the passcode.'; return; }
+    if (paddock.demo) { status.textContent = 'Demo mode: posting is off.'; return; }
+    btn.disabled = true;
+    status.textContent = 'Posting…';
+    // A plain-text POST keeps this a "simple" request, which Apps Script answers without a preflight.
+    fetch(CFG.paddockUrl, { method: 'POST', body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { status.textContent = res.error || 'That didn\'t work.'; return; }
+        if ($('#pdRemember').checked) { store(PADDOCK_KEYS.name, body.name); store(PADDOCK_KEYS.code, body.passcode); }
+        else { store(PADDOCK_KEYS.name, null); store(PADDOCK_KEYS.code, null); }
+        $('#pdMsg').value = ''; $('#pdCount').textContent = '0 / 500';
+        status.textContent = 'Posted.';
+        paddock.posts.unshift({ id: res.post.id, t: Date.parse(res.post.t), name: res.post.name, role: res.post.role, msg: res.post.msg });
+        renderPaddock();
+        markSeen();
+      })
+      .catch(function () { status.textContent = 'Couldn\'t reach the Paddock. Try again in a moment.'; })
+      .then(function () { btn.disabled = false; });
+  }
+
   /* ---------- boot ---------- */
   function tick() {
     var p = state.p;
@@ -632,14 +758,28 @@
     if (c) c.textContent = fmtDur(p.end - now);
     if (now - state.lastFetch > CFG.pollMs && document.visibilityState === 'visible') fetchData();
     else if (Math.floor(now / 1000) % 30 === 0) render();
+    if (paddock.on && now - paddock.lastFetch > CFG.pollMs && document.visibilityState === 'visible') fetchPaddock();
+  }
+
+  function renderEnvironment() {
+    var v = $('#versionLine');
+    if (v) v.textContent = (CFG.name || 'Platinum +1 Club') + ' · Version ' + (CFG.version || '1.0') + (CFG.env === 'test' ? ' (test site)' : '');
+    if (CFG.env === 'test') {
+      var strip = document.createElement('div');
+      strip.className = 'test-strip';
+      strip.textContent = 'Test site. Nothing here affects the live contest.';
+      document.body.insertBefore(strip, document.body.firstChild);
+    }
   }
 
   $('#refreshBtn').addEventListener('click', function () { fetchData(true); });
   $('#installLink').addEventListener('click', function () { $('#installHelp').showModal(); });
-  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') fetchData(); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { fetchData(); fetchPaddock(); } });
   window.addEventListener('resize', function () { if (state.p) render(); });
 
+  renderEnvironment();
   renderSponsor();
+  setupPaddock();
   loadCache();
   if (state.p) render();
   fetchData();
