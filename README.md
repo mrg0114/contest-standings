@@ -57,6 +57,15 @@ Live standings for a three-horse points contest. The judge enters points through
 - Rules: `rules.md` from the site, the constitution. Edit it here and push; the app picks it up without a new build. `ios/PlatinumPlusOne/rules.md` is the copy built into the app for offline use, so update it too before the next build.
 - Donate: a placeholder, hidden (`Site.showDonateTab`) until there is a charity link. App Review turns away placeholder screens, and unless the charity is an Apple-approved nonprofit the donation has to open in Safari.
 
+To send a new build to TestFlight, raise `CURRENT_PROJECT_VERSION` in the project, then from `ios/`:
+
+```bash
+xcodebuild -project PlatinumPlusOne.xcodeproj -scheme PlatinumPlusOne -configuration Release -destination 'generic/platform=iOS' -archivePath "$TMPDIR/PlatinumPlusOne.xcarchive" -allowProvisioningUpdates archive
+PATH="/usr/bin:$PATH" xcodebuild -exportArchive -archivePath "$TMPDIR/PlatinumPlusOne.xcarchive" -exportOptionsPlist ExportOptions.plist -exportPath "$TMPDIR/pp1-export" -allowProvisioningUpdates
+```
+
+The `PATH` puts Apple's `rsync` first: the export fails with "Copy failed" under Homebrew's. Signing uses the Apple ID signed in to Xcode (team VNA7994H29).
+
 Notifications go through OneSignal's iOS SDK in the same OneSignal app as the website, so the scoring script's notifications reach phones with the app too. That needs the Apple push key (.p8) added in OneSignal under the iOS platform. `config.js` has `testFlightUrl`; once set, iPhone visitors in Safari see the app as a choice in the install help.
 
 ## Test site
