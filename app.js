@@ -654,9 +654,11 @@
   function recall(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
 
   function setupPaddock() {
+    var el = $('#paddock');
+    // The app has its own Paddock tab.
+    if (IN_APP) { el.hidden = true; $('#paddockBtn').hidden = true; return; }
     paddock.on = !!CFG.paddockUrl || DEMO;
     paddock.demo = !CFG.paddockUrl;
-    var el = $('#paddock');
     if (!paddock.on) { el.hidden = true; $('#paddockBtn').hidden = true; return; }
     el.hidden = false;
     $('#paddockBtn').hidden = false;
