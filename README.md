@@ -11,6 +11,7 @@ Live standings for a three-horse points contest. The judge enters points through
 | `apps-script/Code.gs` | inside the Sheet (Extensions > Apps Script) | `doGet` serves the log as JSON; `onFormSubmit` pushes lead changes; `scheduledPush` sends the 7 PM local summary, the seal notice, and the final results |
 | `index.html`, `app.js`, `styles.css` | this repo, served at `https://mrg0114.github.io/contest-standings/` | the standings page |
 | OneSignal app "Platinum +1 Club" | onesignal.com | web push to anyone who turns notifications on |
+| Sheet "Platinum +1 Club Paddock" and `apps-script-paddock/Code.gs` | Google Drive, with the script inside it | the Paddock message board: `doGet` serves posts a page at a time, `doPost` adds one |
 
 ## Scoring rules
 
@@ -34,6 +35,21 @@ Live standings for a three-horse points contest. The judge enters points through
 - Apps Script project "Platinum +1 Club", bound to the Sheet. Triggers installed Oct. 22, 2026. Script property `ONESIGNAL_APP_ID` is set; `ONESIGNAL_REST_API_KEY` is added by hand.
 - A code change in the editor needs Deploy > Manage deployments > edit > New version, or the web app keeps serving the old code.
 - Some networks block `*.github.io` in DNS (this Mac's Tailscale DNS answers 0.0.0.0). The site itself is fine from public DNS.
+
+## The Paddock (version 2.0)
+
+- Posting takes a passcode. The judge's passcode posts as Paul with a Judge badge, pins to the top of the board, and sends a push notification. Each competitor's passcode posts under that competitor's name. The fan passcode posts under whatever name the fan types, except the judge's and competitors' names.
+- Posts appear at once. To take one down, tick Hidden on its row in the Posts tab; it leaves the page within a minute.
+- The page loads the newest 30 posts; "Show older posts" fetches the next 30. The judge's latest post is always pinned, however old.
+- Limits: 500 characters a post, one post every 10 seconds per name.
+- Script Properties: `FAN_PASSCODE`, `JUDGE_PASSCODE`, `PASSCODE_JEN`, `PASSCODE_KATHY`, `PASSCODE_BLAS`, and `PUSH` (`on` sends the judge's notifications; anything else only logs them), plus `ONESIGNAL_APP_ID` and `ONESIGNAL_REST_API_KEY` for the push. A passcode change works on the next post, with no redeploy.
+- Web app: `https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec` (execute as matt@teamgallagher.net, access Anyone), `paddockUrl` in `config.js`. Version 3, deployed Oct. 23, 2026.
+- Test posts from before launch are in the "Test posts" tab, which the page doesn't read.
+- `node tools/test_paddock.js` runs the script against stand-ins for Google's services.
+
+## Test site
+
+`https://mrg0114.github.io/contest-standings-test/` serves the same files from the repo `mrg0114/contest-standings-test`. Work happens on the `v2` branch, pushed to the test repo's `main` (`git push test v2:main`); the live site changes only when `main` here is pushed. `config.js` detects the test site from its address: it shows a test banner and never loads OneSignal. It shares the live Paddock, so a post made there is real.
 
 ## Changing things
 

@@ -15,7 +15,8 @@
     swPath: 'contest-standings/OneSignalSDKWorker.js',
     pollMs: 60000,
     // The Paddock message board (its own Apps Script web app). Empty hides the Paddock.
-    paddockUrl: TEST ? 'https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec' : '',
+    // Both sites share one board, so a post made from the test site appears on the live site too.
+    paddockUrl: 'https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec',
     // Sponsor banner at the bottom of the page. Set logo to the approved file (for example
     // 'assets/plex-logo.svg', the light version for dark backgrounds) once Plex supplies it;
     // until then the banner shows the name in text.
