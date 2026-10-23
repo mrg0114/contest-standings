@@ -66,7 +66,7 @@ PATH="/usr/bin:$PATH" xcodebuild -exportArchive -archivePath "$TMPDIR/PlatinumPl
 
 The `PATH` puts Apple's `rsync` first: the export fails with "Copy failed" under Homebrew's. Signing uses the Apple ID signed in to Xcode (team VNA7994H29).
 
-Notifications go through OneSignal's iOS SDK in the same OneSignal app as the website, so the scoring script's notifications reach phones with the app too. That needs the Apple push key (.p8) added in OneSignal under the iOS platform. `config.js` has `testFlightUrl`; once set, iPhone visitors in Safari see the app as a choice in the install help.
+Notifications go through OneSignal's iOS SDK in the same OneSignal app as the website, so the scoring script's notifications reach phones with the app too. That needs the Apple push key (.p8) added in OneSignal under the iOS platform. `config.js` has `testFlightUrl`; once set, iPhone visitors in Safari see the app as a choice in the install help. The public link is `https://testflight.apple.com/join/HFj74uhg` (external group "Fans"); it accepts testers only once a build in that group passes TestFlight App Review. The internal group "Clerk" is Matt.
 
 ## Test site
 
