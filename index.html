@@ -13,7 +13,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=6">
 <link rel="icon" href="icon-192.png?v=6">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 <header class="top">
@@ -55,7 +55,15 @@
 </footer>
 
 <dialog id="installHelp">
-  <h2>Put it on your Home Screen</h2>
+  <section id="appOption" hidden>
+    <h2>Get the iPhone app</h2>
+    <p>It installs through TestFlight, Apple's app for test versions, and asks to send notifications the first time you open it.</p>
+    <ol>
+      <li>Install <b>TestFlight</b> from the App Store.</li>
+      <li>Come back and tap <a id="testFlightLink" href="#">Join the Platinum +1 Club app</a>, then <b>Accept</b> and <b>Install</b>.</li>
+    </ol>
+  </section>
+  <h2 id="homeScreenTitle">Put it on your Home Screen</h2>
   <ol>
     <li>Open this page in Safari.</li>
     <li>Tap the Share button (the square with the arrow pointing up).</li>
@@ -67,7 +75,7 @@
   <form method="dialog"><button type="submit">Got it</button></form>
 </dialog>
 
-<script src="config.js?v=6"></script>
-<script src="app.js?v=9"></script>
+<script src="config.js?v=7"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

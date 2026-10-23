@@ -14,6 +14,8 @@
     swScope: '/contest-standings/',
     swPath: 'contest-standings/OneSignalSDKWorker.js',
     pollMs: 60000,
+    // The iPhone app's TestFlight public link (https://testflight.apple.com/join/...). Empty hides the app option.
+    testFlightUrl: '',
     // The Paddock message board (its own Apps Script web app). Empty hides the Paddock.
     // Both sites share one board, so a post made from the test site appears on the live site too.
     paddockUrl: 'https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec',

@@ -548,11 +548,33 @@
   }
 
   /* ---------- push notifications ---------- */
+  // Inside the iPhone app the page runs in a web view: the app handles notifications natively,
+  // and there is nothing to add to the Home Screen.
+  var IN_APP = /PlatinumPlusOneApp\//.test(navigator.userAgent) &&
+    !!(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.plusOne);
+  var IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  function showPushState(btn, on) {
+    btn.innerHTML = '🔔<span class="label">' + (on ? ' Notifications on' : ' Notifications') + '</span>';
+    btn.setAttribute('aria-label', on ? 'Notifications on' : 'Turn on notifications');
+    btn.classList.toggle('on', !!on);
+  }
+
+  /** In the app, the bell asks the app, which asks iOS and registers with OneSignal natively. */
+  function setupAppPush(btn) {
+    var app = window.webkit.messageHandlers.plusOne;
+    btn.hidden = false;
+    window.plusOneApp = { pushState: function (state) { showPushState(btn, state === 'on'); } };
+    btn.addEventListener('click', function () { app.postMessage({ action: 'togglePush' }); });
+    app.postMessage({ action: 'pushState' });
+  }
+
   function setupPush() {
     var btn = $('#notifyBtn');
+    if (IN_APP) { setupAppPush(btn); return; }
     if (!CFG.oneSignalAppId) return;
     btn.hidden = false;
-    var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isIOS = IS_IOS;
     var standalone = navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
     var ready = false, failed = '', startedAt = Date.now();
     window.__pushDebug = { stage: 'loading sdk' };
@@ -593,10 +615,7 @@
     document.head.appendChild(s);
 
     function refresh(OneSignal) {
-      var on = OneSignal.Notifications.permission && OneSignal.User.PushSubscription.optedIn;
-      btn.innerHTML = '🔔<span class="label">' + (on ? ' Notifications on' : ' Notifications') + '</span>';
-      btn.setAttribute('aria-label', on ? 'Notifications on' : 'Turn on notifications');
-      btn.classList.toggle('on', !!on);
+      showPushState(btn, OneSignal.Notifications.permission && OneSignal.User.PushSubscription.optedIn);
     }
     btn.addEventListener('click', function () {
       if (isIOS && !standalone) { $('#installHelp').showModal(); return; }
@@ -811,9 +830,23 @@
     if (paddock.on && now - paddock.lastFetch > CFG.pollMs && document.visibilityState === 'visible') fetchPaddock();
   }
 
+  /** The footer's install link. On an iPhone or iPad, once the TestFlight link is set, it offers the app as well. */
+  function setupInstall() {
+    var link = $('#installLink');
+    if (IN_APP) { link.hidden = true; return; }
+    var offerApp = IS_IOS && !!CFG.testFlightUrl;
+    $('#appOption').hidden = !offerApp;
+    if (offerApp) {
+      $('#testFlightLink').href = CFG.testFlightUrl;
+      $('#homeScreenTitle').textContent = 'Or put the web app on your Home Screen';
+      link.textContent = 'Get the iPhone app';
+    }
+    link.addEventListener('click', function () { $('#installHelp').showModal(); });
+  }
+
   function renderEnvironment() {
     var v = $('#versionLine');
-    if (v) v.textContent = (CFG.name || 'Platinum +1 Club') + ' · Version ' + (CFG.version || '1.0') + (CFG.env === 'test' ? ' (test site)' : '');
+    if (v) v.textContent = (CFG.name || 'Platinum +1 Club') + ' · Version ' + (CFG.version || '1.0') + (CFG.env === 'test' ? ' (test site)' : '') + (IN_APP ? ' · iPhone app' : '');
     if (CFG.env === 'test') {
       var strip = document.createElement('div');
       strip.className = 'test-strip';
@@ -823,7 +856,7 @@
   }
 
   $('#refreshBtn').addEventListener('click', function () { fetchData(true); });
-  $('#installLink').addEventListener('click', function () { $('#installHelp').showModal(); });
+  setupInstall();
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { fetchData(); fetchPaddock(); } });
   window.addEventListener('resize', function () { if (state.p) render(); });
 
