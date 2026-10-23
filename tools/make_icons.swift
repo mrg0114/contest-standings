@@ -28,3 +28,20 @@ for (name, px) in outputs {
         print("wrote \(name)")
     }
 }
+
+// The iPhone app's icon: the same design at 1024 px, with no alpha channel, which App Store Connect requires.
+let appIcon = "ios/PlatinumPlusOne/Assets.xcassets/AppIcon.appiconset/AppIcon.png"
+if let ctx = CGContext(data: nil, width: 1024, height: 1024, bitsPerComponent: 8, bytesPerRow: 0,
+                       space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue),
+   let artCG = art.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+    ctx.interpolationQuality = .high
+    ctx.setFillColor(wine.cgColor)
+    ctx.fill(CGRect(x: 0, y: 0, width: 1024, height: 1024))
+    let dw = 1024 * 0.86, dh = dw * artH / artW
+    ctx.draw(artCG, in: CGRect(x: (1024 - dw) / 2, y: (1024 - dh) / 2, width: dw, height: dh))
+    if let image = ctx.makeImage(),
+       let dest = CGImageDestinationCreateWithURL(URL(fileURLWithPath: appIcon) as CFURL, "public.png" as CFString, 1, nil) {
+        CGImageDestinationAddImage(dest, image, nil)
+        if CGImageDestinationFinalize(dest) { print("wrote \(appIcon)") }
+    }
+}
