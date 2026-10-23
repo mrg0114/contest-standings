@@ -2,8 +2,10 @@ import SwiftUI
 import WebKit
 import OneSignalFramework
 
-struct ContentView: View {
-    @StateObject private var page = PageController()
+/// The Standings tab: the standings page itself. Inside the app the page leaves out the Paddock,
+/// which has its own tab.
+struct StandingsView: View {
+    @ObservedObject var page: PageController
 
     var body: some View {
         ZStack {

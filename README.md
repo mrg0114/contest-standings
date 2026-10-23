@@ -48,6 +48,17 @@ Live standings for a three-horse points contest. The judge enters points through
 - Test posts from before launch are in the "Test posts" tab, which the page doesn't read.
 - `node tools/test_paddock.js` runs the script against stand-ins for Google's services.
 
+## iPhone app
+
+`ios/` is the Xcode project for "Platinum +1" (bundle ID `net.teamgallagher.platinumplusone`), distributed through TestFlight. Four tabs:
+
+- Standings: the standings page in a web view. Debug builds load the test site and Release builds the live site (`SITE_URL` in the build settings). The page recognizes the app by its user agent: it hides the Paddock and the Add to Home Screen link, and its bell asks the app to turn notifications on.
+- Paddock: native, on the same Apps Script web app as the website, so posts show in both. In Debug, launching with `-PaddockDemo YES` pages through 75 made-up posts instead.
+- Rules: `rules.md` from the site, the constitution. Edit it here and push; the app picks it up without a new build. `ios/PlatinumPlusOne/rules.md` is the copy built into the app for offline use, so update it too before the next build.
+- Donate: a placeholder.
+
+Notifications go through OneSignal's iOS SDK in the same OneSignal app as the website, so the scoring script's notifications reach phones with the app too. That needs the Apple push key (.p8) added in OneSignal under the iOS platform. `config.js` has `testFlightUrl`; once set, iPhone visitors in Safari see the app as a choice in the install help.
+
 ## Test site
 
 `https://mrg0114.github.io/contest-standings-test/` serves the same files from the repo `mrg0114/contest-standings-test`. Work happens on the `v2` branch, pushed to the test repo's `main` (`git push test v2:main`); the live site changes only when `main` here is pushed. `config.js` detects the test site from its address: it shows a test banner and never loads OneSignal. It shares the live Paddock, so a post made there is real.

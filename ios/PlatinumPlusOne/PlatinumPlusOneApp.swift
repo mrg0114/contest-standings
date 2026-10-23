@@ -1,6 +1,8 @@
 // Platinum +1 Club - the iPhone app.
-// A web view on the standings page, plus native push notifications through OneSignal, which the
-// page can't get reliably on iPhone (web push needs a Home Screen icon, iOS 16.4, and no blocker).
+// Four tabs: Standings (the standings page in a web view), the Paddock (native, on the same message
+// board as the website), Rules (the constitution, from rules.md on the site), and Donate.
+// Notifications are native, through OneSignal, which the page can't do reliably on iPhone
+// (web push needs a Home Screen icon, iOS 16.4, and no blocker).
 
 import SwiftUI
 import OneSignalFramework
@@ -10,7 +12,7 @@ struct PlatinumPlusOneApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        WindowGroup { ContentView() }
+        WindowGroup { RootView() }
     }
 }
 
@@ -33,6 +35,12 @@ enum Site {
 
     /// The same OneSignal app as the website, so the scoring script's notifications reach both.
     static let oneSignalAppId = "2c15edd1-bd5b-4f74-b3e7-64b1f7cd4c43"
+
+    /// The Paddock's Apps Script web app, the one config.js gives the website.
+    static let paddockURL = URL(string: "https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec")!
+
+    /// The rules as published on the site. Edit rules.md in the repo and the Rules tab follows.
+    static var rulesURL: URL { url.appendingPathComponent("rules.md") }
 
     static var version: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
