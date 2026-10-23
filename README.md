@@ -38,11 +38,12 @@ Live standings for a three-horse points contest. The judge enters points through
 
 ## The Paddock (version 2.0)
 
-- Posting takes a passcode. The judge's passcode posts as Paul with a Judge badge, pins to the top of the board, and sends a push notification. Each competitor's passcode posts under that competitor's name. The fan passcode posts under whatever name the fan types, except the judge's and competitors' names.
+- Posting takes a passcode. The judge's passcode posts as Paul with a Judge badge, and his latest post pins to the top of the board. Each competitor's passcode posts under that competitor's name. The fan passcode posts under whatever name the fan types, except the judge's and competitors' names.
 - Posts appear at once. To take one down, tick Hidden on its row in the Posts tab; it leaves the page within a minute.
 - The page loads the newest 30 posts; "Show older posts" fetches the next 30. The judge's latest post is always pinned, however old.
 - Limits: 500 characters a post, one post every 10 seconds per name.
-- Script Properties: `FAN_PASSCODE`, `JUDGE_PASSCODE`, `PASSCODE_JEN`, `PASSCODE_KATHY`, `PASSCODE_BLAS`, and `PUSH` (`on` sends the judge's notifications; anything else only logs them), plus `ONESIGNAL_APP_ID` and `ONESIGNAL_REST_API_KEY` for the push. A passcode change works on the next post, with no redeploy.
+- Script Properties: `FAN_PASSCODE`, `JUDGE_PASSCODE`, `PASSCODE_JEN`, `PASSCODE_KATHY`, `PASSCODE_BLAS`, and `PUSH`. A passcode change works on the next post, with no redeploy.
+- Posts send no notifications. `PUSH` is `off` by choice (Oct. 23, 2026); setting it to `on`, with `ONESIGNAL_APP_ID` and `ONESIGNAL_REST_API_KEY` added, would notify subscribers of each judge's post.
 - Web app: `https://script.google.com/macros/s/AKfycbzRKQOBp7NW8QJ9ZmoKo5GuqRlNeQ7rSWSLazq4bTz6qQnmT7QAyEfUqYi8BhNHHluUNg/exec` (execute as matt@teamgallagher.net, access Anyone), `paddockUrl` in `config.js`. Version 3, deployed Oct. 23, 2026.
 - Test posts from before launch are in the "Test posts" tab, which the page doesn't read.
 - `node tools/test_paddock.js` runs the script against stand-ins for Google's services.
