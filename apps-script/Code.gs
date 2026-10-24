@@ -4,7 +4,8 @@
  * Lives inside the "Contest points (Responses)" spreadsheet (Extensions > Apps Script).
  *
  * Three jobs:
- *   1. doGet()         - deployed as a web app, returns the entries as JSON for the standings page.
+ *   1. doGet()         - deployed as a web app, returns the entries as JSON for the standings page
+ *                        (rulings from the final 24 hours are held back until takeoff).
  *   2. onFormSubmit()  - trigger on form submit: a push when the platinum changes hands.
  *   3. scheduledPush() - trigger every 5 minutes: the 7 PM local daily summary, the seal notice,
  *                        and the final results. Run setupTriggers() once to install both triggers.
@@ -40,10 +41,25 @@ function doGet(e) {
   var nocache = e && e.parameter && e.parameter.nocache;
   var body = nocache ? null : cache.get('payload');
   if (!body) {
-    body = JSON.stringify(buildPayload());
+    body = JSON.stringify(publicPayload_(buildPayload(), new Date()));
     cache.put('payload', body, CONFIG.CACHE_SECONDS);
   }
   return ContentService.createTextOutput(body).setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * What the web app publishes. During the final 24 hours the rulings made since the seal stay out of
+ * the feed, so the standings can't be read off it while the page shows the lock; they all appear at
+ * takeoff. The push functions use buildPayload() directly and see everything.
+ */
+function publicPayload_(payload, now) {
+  var seal = new Date(payload.sealAt), end = new Date(payload.contestEnd);
+  if (now < seal || now >= end) return payload;
+  var out = {};
+  for (var k in payload) out[k] = payload[k];
+  out.entries = payload.entries.filter(function (e) { return new Date(e.t) < seal; });
+  out.held = payload.entries.length - out.entries.length; // rulings waiting for takeoff
+  return out;
 }
 
 /** Everything the page needs. Timestamps are ISO 8601 in UTC. */
